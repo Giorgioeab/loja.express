@@ -1,10 +1,11 @@
 const express = require('express')
 const axios = require('axios')
-const ejs = require('ejs')
+const bodyParser = require('body-parser')
 
 const app = express()
 
 app.set('view engine', 'ejs')
+app.use(bodyParser.urlencoded({extended:false}))
 
 app.get('/', async (req, res) => {
     try{
@@ -12,7 +13,7 @@ app.get('/', async (req, res) => {
         const response = await axios.get('https://fakestoreapi.com/products')
         const products = response.data
 
-    res.render ('products', { products })
+    res.render('products', { products })
     }    
 
     catch (error) {
@@ -58,7 +59,29 @@ app.get ('/vestuario', async (req, res) => {
     }
 }) 
 
+let cart = []
 
+app.post('/carrinho', async (req, res) => {
+    const produto = await parseInt(req.body.comprado)
+    
+    const response = await axios.get(`https://fakestoreapi.com/products/${produto}`)
+    const prodCart = response.data
+    cart.push(prodCart)
+    res.redirect('/carrinho')
+})
+
+app.get('/carrinho',(req, res) => {
+    res.render('carrinho', {cart})
+})
+
+app.post('/remover', (req, res) => {
+    const itemRemovido = parseInt(req.body.removido)
+    const removidoIndex = cart.findIndex(item => item.id === itemRemovido)
+    if (removidoIndex !== -1){
+        cart.splice(removidoIndex, 1)
+    }
+    res.redirect('/carrinho')
+})
 
 app.listen (3000, () =>{
     console.log('Server ON')

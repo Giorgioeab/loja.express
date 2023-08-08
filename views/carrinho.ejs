@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
@@ -37,11 +36,10 @@
             height: 180px;
         }
     </style>
-
-    <title>Produtos</title>
+    <title>Document</title>
 </head>
 
-<body class='green darken-4'>
+<body>
     <nav class="nav-extended green darken-3">
         <div class="nav-wrapper container">
             <a href="#" class="brand-logo">Logo</a>
@@ -69,16 +67,10 @@
             </ul>
         </div>
     </nav>
-
-    <ul class="sidenav" id="mobile-demo">
-        <li><a href="#">Sass</a></li>
-        <li><a href="#">Components</a></li>
-        <li><a href="#">JavaScript</a></li>
-    </ul>
-
-    <ul class="lista">
-
-        <% products.forEach( item=> { %>
+    <!-- carrinho de produtos -->
+    <h1>Carrinho de produtos</h1>
+    <ul>
+        <% cart.forEach( item => { %>
             <li>
                 <div class="card">
                     <div class="card-image waves-effect waves-block waves-light">
@@ -95,14 +87,14 @@
                         <p> '<%= item.description %>'</p>
                     </div>
                     <div class="card-action">
-                        <form action="/carrinho" method="post">
-                            <input type="hidden" name="comprado" value="<%= item.id %>">
-                            <button class="btn" type="submit">Comprar agora</button>
+                        <form action="/remover" method="post">
+                            <input type="hidden" name="removido" value="<%= item.id %>">
+                            <button class="btn" type="submit">Remover</button>
                         </form>
                     </div>
                 </div>
             </li>
-            <% })%>
+        <%})%>
     </ul>
 </body>
 
